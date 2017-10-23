@@ -1,13 +1,13 @@
 "use strict";
 
 let owmKey;
-//const dom = require('./dom');
+const dom = require('./dom');
 const events = require('./events');
 
 const searchOWM = (zip) => {
 	// promise search zip codes
 	return new Promise((resolve, reject) => {
-		$.ajax(`https://api.openweathermap.org/data/2.5/weather?zip=${zip},us&APPID=${owmKey}`).done((data) => {
+		$.ajax(`https://api.openweathermap.org/data/2.5/weather?zip=${zip},us&APPID=${owmKey}&units=imperial`).done((data) => {
 			console.log(data);
 			resolve(data.results);
 		}).fail((error) => {
@@ -32,9 +32,9 @@ const setKey = (apiKey) => {
 	console.log("owmKey", owmKey);
 };
 
-// const showResults = (weatherArray) => {
-// 	dom.clearDom();
-// 	dom.domString(weatherArray);
-// };
+const showResults = (weatherArray) => {
+	dom.clearDom();
+	dom.domString(weatherArray);
+};
 
 module.exports = {setKey, searchOWM};
