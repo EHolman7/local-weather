@@ -23,7 +23,44 @@ const retrieveKeys = () => {
 };
 
 module.exports = {retrieveKeys};
-},{"./owm":4}],2:[function(require,module,exports){
+},{"./owm":5}],2:[function(require,module,exports){
+"use strict";
+
+const domString = (weatherArray) => {
+	console.log("weatherArray", weatherArray);
+	let domString = '';
+	for(let i =0; i < weatherArray.length; i++) {
+		if (i % 3 === 0){
+			domString += `<div class ="row">`;
+		}
+	  	domString += `<div class="col-sm-6 col-md-4">`;
+	    domString += 	`<div class="thumbnail">`;
+	    domString +=  `<div class="caption">`;
+	    domString +=    `<h3>${weatherArray[i].name}</h3>`;
+	    domString +=    `<p>${weatherArray[i].temp}</p>`;// Temperature
+	   	domString +=    `<p>${weatherArray[i].conditions}</p>`;// Conditions
+	    domString +=    `<p>${weatherArray[i].pressure}</p>`;// Air pressure
+	    domString +=    `<p>${weatherArray[i].wind}</p>`;// Wind speed
+// An affordance to view the forecast for the current day, the next three days, or the next 7 days
+	    domString +=    `<p><a href="#" class="btn btn-primary" role="button">3 day forecast</a> <a href="#" class="btn btn-default" role="button">5 day forecast</a></p>`;
+	    domString +=  		`</div>`;
+	  	domString +=  `</div>`;
+		domString += `</div>`;
+	}
+		printToDom(domString);
+};
+
+const printToDom = (strang) => {
+	$("#weather").append(strang);
+};
+
+const clearDom = () => {
+	$('#weather').empty();
+};
+
+
+module.exports = {domString, clearDom};
+},{}],3:[function(require,module,exports){
 "use strict";
 
 const owm = require('./owm');
@@ -41,18 +78,10 @@ const pressEnter = () => {
 };
 
 module.exports = {pressEnter};
-},{"./owm":4}],3:[function(require,module,exports){
+},{"./owm":5}],4:[function(require,module,exports){
 "use strict";
 
-// let dom = require("./dom");
-
-// "main":{
-// "temp":306.15, //current temperature 
-// "pressure":1013,
-// "humidity":44,
-// "temp_min":306, //min current temperature in the city
-// "temp_max":306 //max current temperature in the city
-// },
+let dom = require("./dom");
 
 let events = require('./events');
 let apiKeys = require('./apiKeys');
@@ -66,17 +95,17 @@ apiKeys.retrieveKeys();
 
 
  events.pressEnter();
-},{"./apiKeys":1,"./events":2}],4:[function(require,module,exports){
+},{"./apiKeys":1,"./dom":2,"./events":3}],5:[function(require,module,exports){
 "use strict";
 
 let owmKey;
-//const dom = require('./dom');
+const dom = require('./dom');
 const events = require('./events');
 
 const searchOWM = (zip) => {
 	// promise search zip codes
 	return new Promise((resolve, reject) => {
-		$.ajax(`https://api.openweathermap.org/data/2.5/weather?zip=${zip},us&APPID=${owmKey}`).done((data) => {
+		$.ajax(`https://api.openweathermap.org/data/2.5/weather?zip=${zip},us&APPID=${owmKey}&units=imperial`).done((data) => {
 			console.log(data);
 			resolve(data.results);
 		}).fail((error) => {
@@ -101,10 +130,10 @@ const setKey = (apiKey) => {
 	console.log("owmKey", owmKey);
 };
 
-// const showResults = (weatherArray) => {
-// 	dom.clearDom();
-// 	dom.domString(weatherArray);
-// };
+const showResults = (weatherArray) => {
+	dom.clearDom();
+	dom.domString(weatherArray);
+};
 
 module.exports = {setKey, searchOWM};
-},{"./events":2}]},{},[3]);
+},{"./dom":2,"./events":3}]},{},[4]);
