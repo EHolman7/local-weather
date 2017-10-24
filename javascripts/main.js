@@ -1,9 +1,10 @@
 "use strict";
 
-let dom = require("./dom");
+//let dom = require("./dom");
 
 let events = require('./events');
 let apiKeys = require('./apiKeys');
+let owm = require('./owm');
 
 apiKeys.retrieveKeys();
 
@@ -11,6 +12,5 @@ apiKeys.retrieveKeys();
 // 	owm.searchOWM(37217);
 // });
 
-
-
  events.pressEnter();
+ //events.forecast();
