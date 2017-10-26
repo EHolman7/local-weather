@@ -13,4 +13,5 @@ apiKeys.retrieveKeys();
 // });
 
  events.pressEnter();
+ events.pressSubmit();
  //events.forecast();
