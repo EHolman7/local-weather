@@ -2,6 +2,8 @@
 
 const owm = require('./owm');
 
+//const zipCodes =/(^\d{5}$)|(^\d{5}-\d{4}$)/;
+
 const pressEnter = () => {
 	$(document).keypress((e) => {
 		if(e.key === 'Enter'){
@@ -13,6 +15,28 @@ const pressEnter = () => {
 		}
 	});
 };
+
+const pressSubmit = () => {
+	$("#submitBtn").on("click",(e) => {
+		console.log("event", e.target);
+		let searchText = $('#searchBar').val();
+		let zip = searchText;
+		owm.searchZipCodes(zip);		
+	});
+};
+
+// add event listeners to forecast buttons
+$(document).on('click', '#three', (e) => { 
+	let searchText = $('#searchBar').val();
+	let zip = searchText;
+	owm.searchForecast(zip);
+});
+
+$(document).on('click', '#five', (e) => { 
+	let searchText = $('#searchBar').val();
+	let zip = searchText;
+	owm.searchForecast(zip);
+});
 
 
 // const forecast = () => {
@@ -29,4 +53,4 @@ const pressEnter = () => {
 // 	});
 // };
 
-module.exports = {pressEnter};
+module.exports = {pressEnter, pressSubmit};
