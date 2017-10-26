@@ -30,19 +30,14 @@ const pressSubmit = () => {
 $(document).on('click', '#three', (e) => { 
 	let searchText = $('#searchBar').val();
 	let zip = searchText;
-	owm.weatherForecast(zip);
+	owm.searchForecast(zip);
 });
 
 $(document).on('click', '#five', (e) => { 
 	let searchText = $('#searchBar').val();
 	let zip = searchText;
-	owm.weatherForecast(zip);
+	owm.searchForecast(zip);
 });
-
-const searchForecast = (event) => {
-  let days = event.target.value;
-  owm.weatherForecast(zip, days);
-};
 
 // const forecast = () => {
 // 	$("#forecast").click(() => {
@@ -58,4 +53,4 @@ const searchForecast = (event) => {
 // 	});
 // };
 
-module.exports = {pressEnter, pressSubmit, searchForecast};
+module.exports = {pressEnter, pressSubmit};

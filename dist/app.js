@@ -128,19 +128,14 @@ const pressSubmit = () => {
 $(document).on('click', '#three', (e) => { 
 	let searchText = $('#searchBar').val();
 	let zip = searchText;
-	owm.weatherForecast(zip);
+	owm.searchForecast(zip);
 });
 
 $(document).on('click', '#five', (e) => { 
 	let searchText = $('#searchBar').val();
 	let zip = searchText;
-	owm.weatherForecast(zip);
+	owm.searchForecast(zip);
 });
-
-const searchForecast = (event) => {
-  let days = event.target.value;
-  owm.weatherForecast(zip, days);
-};
 
 // const forecast = () => {
 // 	$("#forecast").click(() => {
@@ -156,7 +151,7 @@ const searchForecast = (event) => {
 // 	});
 // };
 
-module.exports = {pressEnter, pressSubmit, searchForecast};
+module.exports = {pressEnter, pressSubmit};
 },{"./owm":5}],4:[function(require,module,exports){
 "use strict";
 
@@ -200,7 +195,6 @@ const weatherForecast = (zip, days) => {
 	return new Promise((resolve, reject) => {
 		$.ajax(`http://api.openweathermap.org/data/2.5/forecast?zip=${zip},us&APPID=${owmKey}&units=imperial`).done((data) => {
 			resolve(data);
-			dom.dayString(data.list, days);
 			console.log(data);
 		}).fail((error) => {
 			reject(error);
@@ -218,15 +212,15 @@ const searchZipCodes = (zip) => {
 	});
 };
 
-// const searchForecast = (zip) => {
-// 	// execute weatherForecast
-// 	weatherForecast(zip).then((data) => {
-// 		console.log("data", data);
-// 		showResults2(data);
-// 	}).catch((error) => {
-// 		console.log("error in search forecast", error);
-// 	});
-// };
+const searchForecast = (zip) => {
+	// execute weatherForecast
+	weatherForecast(zip).then((data) => {
+		console.log("data", data);
+		showResults2(data);
+	}).catch((error) => {
+		console.log("error in search forecast", error);
+	});
+};
 
 const setKey = (apiKey) => {
 	// sets owmKey
@@ -239,14 +233,14 @@ const showResults = (weatherArray) => {
 	dom.domString(weatherArray);
 };
 
-// const showResults2 = (forecastArray) => {
-// 	dom.clearDom();
-// 	dom.dayString(forecastArray);
-// };
+const showResults2 = (forecastArray) => {
+	dom.clearDom();
+	dom.dayString(forecastArray);
+};
 
 
 
-module.exports = {setKey, searchZipCodes};
+module.exports = {setKey, searchZipCodes, searchForecast};
 
 
 },{"./dom":2,"./events":3}]},{},[4]);
