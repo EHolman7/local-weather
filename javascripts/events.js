@@ -1,6 +1,7 @@
 "use strict";
 
 const owm = require('./owm');
+let zip;
 
 //const zipCodes =/(^\d{5}$)|(^\d{5}-\d{4}$)/;
 
@@ -29,15 +30,19 @@ const pressSubmit = () => {
 $(document).on('click', '#three', (e) => { 
 	let searchText = $('#searchBar').val();
 	let zip = searchText;
-	owm.searchForecast(zip);
+	owm.weatherForecast(zip);
 });
 
 $(document).on('click', '#five', (e) => { 
 	let searchText = $('#searchBar').val();
 	let zip = searchText;
-	owm.searchForecast(zip);
+	owm.weatherForecast(zip);
 });
 
+const searchForecast = (event) => {
+  let days = event.target.value;
+  owm.weatherForecast(zip, days);
+};
 
 // const forecast = () => {
 // 	$("#forecast").click(() => {
@@ -53,4 +58,4 @@ $(document).on('click', '#five', (e) => {
 // 	});
 // };
 
-module.exports = {pressEnter, pressSubmit};
+module.exports = {pressEnter, pressSubmit, searchForecast};

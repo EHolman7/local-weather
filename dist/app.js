@@ -29,7 +29,7 @@ module.exports = {retrieveKeys};
 const domString = (weatherArray) => {
 	//console.log("weatherArray", weatherArray);
 	let domStrang = '';
-	  	domStrang += `<div class="col-sm-6 col-md-4">`;
+	  	domStrang += `<div class="col-sm-6 col-md-4 col-md-offset-4">`;
 	    domStrang += 	`<div class="thumbnail">`;
 	    domStrang +=  `<div class="caption">`;
 	    domStrang +=    `<h3>${weatherArray.name}</h3>`;
@@ -52,56 +52,46 @@ const clearDom = () => {
 	$('#weather').empty();
 };
 
-// const dayString = (forecastArray, days) => {
-// 	console.log("forecastArray", forecastArray);
-// 	let dayStrang = '';
-// 	var stop = 40;
-// 	if (days === 3 ) {
-// 		stop = 32;
-// 	}
-// 	for(let i = 8; i < stop; i=i+8) {
-// 	  	dayStrang += `<div id="forcast-current" class="current col-sm-12 col-md-12 text-center">`;
-// 	    dayStrang +=    `<h3>${forecastArray[i].name}</h3>`;
-// 	    dayStrang +=    `<p>${forecastArray[i].main.temp}</p>`;// Temperature
-// 	   	dayStrang +=    `<p>${forecastArray[i].weather["0"].description}</p>`;// Conditions
-// 	    dayStrang +=    `<p>${forecastArray[i].main.pressure}</p>`;// Air pressure
-// 	    dayStrang +=    `<p>${forecastArray[i].wind.speed}</p>`;// Wind speed
-// 	    dayStrang +=  		`</div>`;
-// 	}
-// 		printToDom2(dayStrang);
-// };
-
-const dayString = (forecastArray, days) => { console.log("forecastArray", forecastArray, days);
-	console.log(forecastArray.list["0"].dt_txt);
-	console.log("from dom", forecastArray.length);
+const dayString = (forecastArray, days) => {
+	console.log("forecastArray", forecastArray);
 	let dayStrang = '';
 	var stop = 40;
-
 	if (days === 3 ) {
 		stop = 32;
 	}
 	for(let i = 8; i < stop; i=i+8) {
-		//console.log(forecastArray[i].dt_txt.slice(0, 10));
-// 		forecastArray[i].dt_txt
-						
-		dayStrang += `<div class="col-sm-6 col-md-4 ">`;
-	    dayStrang += 	`<div class="thumbnail">`;  
-	    dayStrang +=  		`<div class="caption">`;
-	    dayStrang += 			`<p>${forecastArray[i].dt_txt.slice(0, 10)}</p>`;
-	    dayStrang +=			`<p>${forecastArray[i].main.temp}</p>`;
-	    dayStrang += 		 `</div>`;
-	    dayStrang +=  	`</div>`;
-	    dayStrang +=  `</div>`;
-	    // dayStrang +=  `</div>`;
-	 }
-	
-		printToDom2(dayString);
-		console.log(dayString);
-
+	  	dayStrang += `<div id="forcast-current" class="current col-sm-12 col-md-12 text-center">`;
+	    dayStrang +=    `<h3>${forecastArray[i].name}</h3>`;
+	    dayStrang +=    `<p>${forecastArray[i].main.temp}</p>`;// Temperature
+	   	dayStrang +=    `<p>${forecastArray[i].weather["0"].description}</p>`;// Conditions
+	    dayStrang +=    `<p>${forecastArray[i].main.pressure}</p>`;// Air pressure
+	    dayStrang +=    `<p>${forecastArray[i].wind.speed}</p>`;// Wind speed
+	    dayStrang +=  		`</div>`;
+	}
+		printToDom2(dayStrang);
 };
 
-const printToDom2 = (strang2) => {
-	$("#forecast").append(strang2);
+
+// const dayString = (forecastArray, days) => {
+//   let domString = "";
+//   days = days * 7;
+//   for (let i = 0; i <= days ; i ++) {
+//     if (forecastArray[i].dt_txt.split(" ").pop() === "12:00:00") {
+//       domString += `<div class="border forecast col-xs-4">`;
+//       domString +=  `<h6 class="text-center">${(forecastArray[i].dt_txt).split(" ")[0]}</h6>`;
+//       domString += `<h3>${forecastArray[i].weather[0].description}</h3>`;
+//       //<img src="http://openweathermap.org/img/w/${weatherData[i].weather[0].icon}.png">
+//       domString += `<h3>Temp ${forecastArray[i].main.temp}</h3>`;
+//       domString += `<h3>Air Pressure: ${forecastArray[i].main.pressure}hPa</h3>`;
+//       domString += `<h3>Wind Speed: ${forecastArray[i].wind.speed}mph</h3>`;
+//       domString += `</div>`;
+//       }
+//     }
+//   printToDom2(domString);
+// };
+
+const printToDom2 = (strang) => {
+	$("#forecast").append(strang);
 };
 
 module.exports = {domString, dayString, clearDom};
@@ -109,6 +99,7 @@ module.exports = {domString, dayString, clearDom};
 "use strict";
 
 const owm = require('./owm');
+let zip;
 
 //const zipCodes =/(^\d{5}$)|(^\d{5}-\d{4}$)/;
 
@@ -137,15 +128,19 @@ const pressSubmit = () => {
 $(document).on('click', '#three', (e) => { 
 	let searchText = $('#searchBar').val();
 	let zip = searchText;
-	owm.searchForecast(zip);
+	owm.weatherForecast(zip);
 });
 
 $(document).on('click', '#five', (e) => { 
 	let searchText = $('#searchBar').val();
 	let zip = searchText;
-	owm.searchForecast(zip);
+	owm.weatherForecast(zip);
 });
 
+const searchForecast = (event) => {
+  let days = event.target.value;
+  owm.weatherForecast(zip, days);
+};
 
 // const forecast = () => {
 // 	$("#forecast").click(() => {
@@ -161,7 +156,7 @@ $(document).on('click', '#five', (e) => {
 // 	});
 // };
 
-module.exports = {pressEnter, pressSubmit};
+module.exports = {pressEnter, pressSubmit, searchForecast};
 },{"./owm":5}],4:[function(require,module,exports){
 "use strict";
 
@@ -201,10 +196,11 @@ const searchOWM = (zip) => {
 };
 
 //weather forecast
-const weatherForecast = (zip) => {
+const weatherForecast = (zip, days) => {
 	return new Promise((resolve, reject) => {
 		$.ajax(`http://api.openweathermap.org/data/2.5/forecast?zip=${zip},us&APPID=${owmKey}&units=imperial`).done((data) => {
 			resolve(data);
+			dom.dayString(data.list, days);
 			console.log(data);
 		}).fail((error) => {
 			reject(error);
@@ -222,15 +218,15 @@ const searchZipCodes = (zip) => {
 	});
 };
 
-const searchForecast = (zip) => {
-	// execute weatherForecast
-	weatherForecast(zip).then((data) => {
-		console.log("data", data);
-		showResults2(data);
-	}).catch((error) => {
-		console.log("error in search forecast", error);
-	});
-};
+// const searchForecast = (zip) => {
+// 	// execute weatherForecast
+// 	weatherForecast(zip).then((data) => {
+// 		console.log("data", data);
+// 		showResults2(data);
+// 	}).catch((error) => {
+// 		console.log("error in search forecast", error);
+// 	});
+// };
 
 const setKey = (apiKey) => {
 	// sets owmKey
@@ -243,12 +239,14 @@ const showResults = (weatherArray) => {
 	dom.domString(weatherArray);
 };
 
-const showResults2 = (forecastArray) => {
-	dom.clearDom();
-	dom.dayString(forecastArray);
-};
+// const showResults2 = (forecastArray) => {
+// 	dom.clearDom();
+// 	dom.dayString(forecastArray);
+// };
 
-module.exports = {setKey, searchZipCodes, searchForecast};
+
+
+module.exports = {setKey, searchZipCodes};
 
 
 },{"./dom":2,"./events":3}]},{},[4]);

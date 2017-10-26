@@ -18,10 +18,11 @@ const searchOWM = (zip) => {
 };
 
 //weather forecast
-const weatherForecast = (zip) => {
+const weatherForecast = (zip, days) => {
 	return new Promise((resolve, reject) => {
 		$.ajax(`http://api.openweathermap.org/data/2.5/forecast?zip=${zip},us&APPID=${owmKey}&units=imperial`).done((data) => {
 			resolve(data);
+			dom.dayString(data.list, days);
 			console.log(data);
 		}).fail((error) => {
 			reject(error);
@@ -39,15 +40,15 @@ const searchZipCodes = (zip) => {
 	});
 };
 
-const searchForecast = (zip) => {
-	// execute weatherForecast
-	weatherForecast(zip).then((data) => {
-		console.log("data", data);
-		showResults2(data);
-	}).catch((error) => {
-		console.log("error in search forecast", error);
-	});
-};
+// const searchForecast = (zip) => {
+// 	// execute weatherForecast
+// 	weatherForecast(zip).then((data) => {
+// 		console.log("data", data);
+// 		showResults2(data);
+// 	}).catch((error) => {
+// 		console.log("error in search forecast", error);
+// 	});
+// };
 
 const setKey = (apiKey) => {
 	// sets owmKey
@@ -60,10 +61,12 @@ const showResults = (weatherArray) => {
 	dom.domString(weatherArray);
 };
 
-const showResults2 = (forecastArray) => {
-	dom.clearDom();
-	dom.dayString(forecastArray);
-};
+// const showResults2 = (forecastArray) => {
+// 	dom.clearDom();
+// 	dom.dayString(forecastArray);
+// };
 
-module.exports = {setKey, searchZipCodes, searchForecast};
+
+
+module.exports = {setKey, searchZipCodes};
 
