@@ -18,7 +18,7 @@ const searchOWM = (zip) => {
 };
 
 //weather forecast
-const weatherForecast = (zip) => {
+const weatherForecast = (zip, days) => {
 	return new Promise((resolve, reject) => {
 		$.ajax(`http://api.openweathermap.org/data/2.5/forecast?zip=${zip},us&APPID=${owmKey}&units=imperial`).done((data) => {
 			resolve(data);
@@ -64,6 +64,8 @@ const showResults2 = (forecastArray) => {
 	dom.clearDom();
 	dom.dayString(forecastArray);
 };
+
+
 
 module.exports = {setKey, searchZipCodes, searchForecast};
 
