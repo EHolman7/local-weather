@@ -61,7 +61,7 @@ const dayString = (forecastArray, days) => {
 	}
 	for(let i = 8; i < stop; i=i+8) {
 	  	dayStrang += `<div id="forcast-current" class="current col-sm-12 col-md-12 text-center">`;
-	    dayStrang +=    `<h3>${forecastArray[i].name}</h3>`;
+	    dayStrang +=    `<h3>${forecastArray[i].city.name}</h3>`;
 	    dayStrang +=    `<p>${forecastArray[i].main.temp}</p>`;// Temperature
 	   	dayStrang +=    `<p>${forecastArray[i].weather["0"].description}</p>`;// Conditions
 	    dayStrang +=    `<p>${forecastArray[i].main.pressure}</p>`;// Air pressure
@@ -70,25 +70,6 @@ const dayString = (forecastArray, days) => {
 	}
 		printToDom2(dayStrang);
 };
-
-
-// const dayString = (forecastArray, days) => {
-//   let domString = "";
-//   days = days * 7;
-//   for (let i = 0; i <= days ; i ++) {
-//     if (forecastArray[i].dt_txt.split(" ").pop() === "12:00:00") {
-//       domString += `<div class="border forecast col-xs-4">`;
-//       domString +=  `<h6 class="text-center">${(forecastArray[i].dt_txt).split(" ")[0]}</h6>`;
-//       domString += `<h3>${forecastArray[i].weather[0].description}</h3>`;
-//       //<img src="http://openweathermap.org/img/w/${weatherData[i].weather[0].icon}.png">
-//       domString += `<h3>Temp ${forecastArray[i].main.temp}</h3>`;
-//       domString += `<h3>Air Pressure: ${forecastArray[i].main.pressure}hPa</h3>`;
-//       domString += `<h3>Wind Speed: ${forecastArray[i].wind.speed}mph</h3>`;
-//       domString += `</div>`;
-//       }
-//     }
-//   printToDom2(domString);
-// };
 
 const printToDom2 = (strang) => {
 	$("#forecast").append(strang);
@@ -136,20 +117,6 @@ $(document).on('click', '#five', (e) => {
 	let zip = searchText;
 	owm.searchForecast(zip);
 });
-
-// const forecast = () => {
-// 	$("#forecast").click(() => {
-// 		console.log("click");
-// 		let searchText = $('#searchBar').val();
-// 		let zip = searchText;
-// 		owm.weatherForecast(zip).then((results) => {
-// 		console.log(results);
-// 		dom.forecast(results);		
-// 	}).catch((error) => {
-// 		console.log("error from forecast", error);
-// 	});
-// 	});
-// };
 
 module.exports = {pressEnter, pressSubmit};
 },{"./owm":5}],4:[function(require,module,exports){
