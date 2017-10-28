@@ -33,17 +33,19 @@ const dayString = (forecastArray, days) => {
 	if (days === 3 ) {
 		stop = 32;
 	}
-	for(let i = 8; i < stop; i=i+8) {
-	  	dayStrang += `<div id="forcast-current" class="current col-sm-12 col-md-12 text-center">`;
-	    dayStrang +=    `<h3>${forecastArray[i].city.name}</h3>`;
-	    dayStrang +=    `<p>${forecastArray[i].main.temp}</p>`;// Temperature
-	   	dayStrang +=    `<p>${forecastArray[i].weather["0"].description}</p>`;// Conditions
-	    dayStrang +=    `<p>${forecastArray[i].main.pressure}</p>`;// Air pressure
-	    dayStrang +=    `<p>${forecastArray[i].wind.speed}</p>`;// Wind speed
-	    dayStrang +=  		`</div>`;
-	}
-		printToDom2(dayStrang);
+   for(let i = 8; i < stop; i=i+8) {
+          dayStrang += `<div id="forcast-current" class="current col-sm-12 col-md-12 text-center">`;
+        dayStrang +=    `<h3>${forecastArray.city.name}</h3>`;
+        dayStrang +=    `<p>${forecastArray.list[i].main.temp}</p>`;// Temperature
+           dayStrang +=    `<p>${forecastArray.list[i].weather[0].description}</p>`;// Conditions
+        dayStrang +=    `<p>${forecastArray.list[i].main.pressure}</p>`;// Air pressure
+        dayStrang +=    `<p>${forecastArray.list[i].wind.speed}</p>`;// Wind speed
+        dayStrang +=          `</div>`;
+    }
+        printToDom2(dayStrang);
 };
+
+
 
 const printToDom2 = (strang) => {
 	$("#forecast").append(strang);
