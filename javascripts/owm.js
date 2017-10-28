@@ -61,7 +61,7 @@ const showResults = (weatherArray) => {
 };
 
 const showResults2 = (forecastArray) => {
-	dom.clearDom();
+	//dom.clearDom();
 	dom.dayString(forecastArray);
 };
 
